@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="dynatrace-cordova-plugin" version="1.213.0">
+<?xml version="1.0" encoding="UTF-8"?><plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="dynatrace-cordova-plugin" version="1.219.1">
   <name>Dynatrace</name>
   <description>Dynatrace Cordova Plugin</description>
 
@@ -25,7 +25,7 @@
     <header-file src="src/ios/DynatraceCordovaPlugin.h"/>
     <source-file src="src/ios/DynatraceCordovaPlugin.m"/>
 
-    <framework src="Dynatrace/lib" spec="~> 8.181.1" type="podspec"/>
+    <framework src="Dynatrace/lib" spec="~> 8.219.1.1004" type="podspec"/>
 
     <framework src="libsqlite3.dylib"/>
     <framework src="CoreLocation.framework"/>
