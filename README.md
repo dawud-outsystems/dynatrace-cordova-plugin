@@ -1,12 +1,19 @@
 [![N|Solid](https://assets.dynatrace.com/content/dam/dynatrace/misc/dynatrace_web.png)](https://dynatrace.com)
 
-# Dynatrace Cordova Plugin
+# Dynatrace Cordova plugin wrapper for OutSystems
 
-This plugin gives you the ability to use the Dynatrace instrumentation in your hybrid application (Cordova, Ionic, Capacitor ..). It uses the Mobile Agent and the JavaScript Agent. The Mobile Agent will give you all device specific values containing lifecycle information and the JavaScript Agent will allow you to manually instrument your JavaScript/TypeScript code out of the box (TypeScript definitions included). The JavaScript Agent will cover the network calls (depending on your used libraries) and will automatically detect them.
+This plugin is based on the code published by Dynatrace as an NPM package at [this location](https://www.npmjs.com/package/@dynatrace/cordova-plugin), version 1.219.1.
+It gives you the ability to use the Dynatrace instrumentation in your hybrid application (Cordova, Ionic, Capacitor ..). It uses the Mobile Agent and the JavaScript Agent. The Mobile Agent will give you all device specific values containing lifecycle information and the JavaScript Agent will allow you to manually instrument your JavaScript/TypeScript code out of the box (TypeScript definitions included). The JavaScript Agent will cover the network calls (depending on your used libraries) and will automatically detect them.
 
 ## Versioning
 
 The `dynatrace-cordova-plugin` is the old version of this plugin. Consider it deprecated. Only use `@dyntrace/cordova-plugin` from now on, if you want to have the newest version. If you are upgrading from the old version have a look at our [migration](#migration-from-old-plugin) guide which is explaining what has changed. The versioning changed as well, the old 7.2.x was based on the versions of the Mobile Agents used. Now the plugin has its own versioning. The version of the used Mobile Agent can be seen [here](#agent-versions).
+
+## MABS Version
+This plugin uses MABS version 7.
+
+## How to Update this Wrapper
+For a detailed guide on how to update this wrapper, follow [this link](https://docs.google.com/document/d/13lT8y2HEYJd2ElD3txKWuGyFeun1xPzZ349WojzxnUM/edit#).
 
 ## Requirements
 
