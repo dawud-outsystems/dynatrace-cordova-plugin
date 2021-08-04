@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteFileSync = exports.deleteFile = exports.searchFileExtInDirectoryNonRecursive = exports.searchFileExtInDirectoryRecursive = exports.searchFilesInDirectoryRecursive = exports.createDirectorySync = exports.createDirectory = exports.checkIfFileExistsSync = exports.checkIfFileExists = exports.copyFileSync = exports.copyFile = exports.renameFileSync = exports.renameFile = exports.deleteDirectory = exports.writeTextToFileSync = exports.writeTextToFile = exports.readTextFromFileSync = exports.readTextFromFile = void 0;
-const fs = require("fs");
-const path = require("path");
-const logger_1 = require("./logger");
+exports.isPlatformAvailable = exports.deleteFileSync = exports.deleteFile = exports.searchFileExtInDirectoryNonRecursive = exports.searchFileExtInDirectoryRecursive = exports.searchFilesInDirectoryRecursive = exports.createDirectorySync = exports.createDirectory = exports.checkIfFileExistsSync = exports.checkIfFileExists = exports.copyFileSync = exports.copyFile = exports.renameFileSync = exports.renameFile = exports.deleteDirectory = exports.writeTextToFileSync = exports.writeTextToFile = exports.readTextFromFileSync = exports.readTextFromFile = void 0;
+var fs = require("fs");
+var path = require("path");
+var logger_1 = require("./logger");
 function searchFilesInDirectoryRecursive(searchPath, fileExt, filteredDirectories) {
     return _searchFilePatternInDirectory(searchPath, [], fileExt, filteredDirectories, true, compareFileNames);
 }
@@ -18,11 +18,11 @@ function searchFileExtInDirectoryNonRecursive(searchPath, fileExt, filteredDirec
 }
 exports.searchFileExtInDirectoryNonRecursive = searchFileExtInDirectoryNonRecursive;
 function compareFileNames(file, filePattern) {
-    let fileName = path.basename(file);
+    var fileName = path.basename(file);
     return fileName.indexOf(filePattern) > -1;
 }
 function compareExt(file, ext) {
-    let extName = path.extname(file);
+    var extName = path.extname(file);
     return extName == ext;
 }
 function _searchFilePatternInDirectory(searchPath, foundFiles, pattern, filteredDirectories, recursive, fileCompare) {
@@ -32,16 +32,16 @@ function _searchFilePatternInDirectory(searchPath, foundFiles, pattern, filtered
                 reject("Directory could not be read: " + path.resolve(searchPath));
                 return;
             }
-            let promiseArr = [];
-            for (let i = 0; i < files.length; i++) {
-                let dirInfo = isDirectory(path.join(searchPath, files[i]));
+            var promiseArr = [];
+            for (var i = 0; i < files.length; i++) {
+                var dirInfo = isDirectory(path.join(searchPath, files[i]));
                 if (dirInfo) {
                     promiseArr.push(dirInfo);
                 }
             }
-            Promise.all(promiseArr).then(values => {
-                let dirArr = [];
-                for (let i = 0; i < promiseArr.length; i++) {
+            Promise.all(promiseArr).then(function (values) {
+                var dirArr = [];
+                for (var i = 0; i < promiseArr.length; i++) {
                     if (values[i].isDirectory) {
                         if (!isDirectoryFiltered(values[i].path, filteredDirectories) && recursive) {
                             dirArr.push(values[i].path);
@@ -53,11 +53,14 @@ function _searchFilePatternInDirectory(searchPath, foundFiles, pattern, filtered
                         }
                     }
                 }
-                let anotherPromise = Promise.resolve(foundFiles);
-                for (let ii = 0; ii < dirArr.length; ii++) {
-                    anotherPromise = anotherPromise.then((foundFiles) => {
+                var anotherPromise = Promise.resolve(foundFiles);
+                var _loop_1 = function (ii) {
+                    anotherPromise = anotherPromise.then(function (foundFiles) {
                         return _searchFilePatternInDirectory(dirArr[ii], foundFiles, pattern, filteredDirectories, recursive, fileCompare);
                     });
+                };
+                for (var ii = 0; ii < dirArr.length; ii++) {
+                    _loop_1(ii);
                 }
                 if (dirArr.length == 0) {
                     resolve(foundFiles);
@@ -71,7 +74,7 @@ function _searchFilePatternInDirectory(searchPath, foundFiles, pattern, filtered
 }
 function isDirectory(checkPath) {
     try {
-        let stats = fs.statSync(checkPath);
+        var stats = fs.statSync(checkPath);
         return {
             isDirectory: stats.isDirectory(),
             path: checkPath
@@ -83,8 +86,8 @@ function isDirectory(checkPath) {
     }
 }
 function isDirectoryFiltered(dirPath, filteredDirectories) {
-    let dirName = path.basename(dirPath);
-    for (let i = 0; i < filteredDirectories.length; i++) {
+    var dirName = path.basename(dirPath);
+    for (var i = 0; i < filteredDirectories.length; i++) {
         if (dirName == filteredDirectories[i]) {
             return true;
         }
@@ -95,7 +98,7 @@ function checkIfFileExists(_file) {
     return new Promise(function (resolve, reject) {
         fs.stat(_file, function (err) {
             if (err) {
-                reject(`${err} - File doesn't exist: ${path.resolve(_file)}`);
+                reject(err + " - File doesn't exist: " + path.resolve(_file));
             }
             resolve(_file);
         });
@@ -113,7 +116,7 @@ function readTextFromFileSync(_file) {
 exports.readTextFromFileSync = readTextFromFileSync;
 function readTextFromFile(_file) {
     return new Promise(function (resolve, reject) {
-        fs.readFile(_file, "utf8", (err, data) => {
+        fs.readFile(_file, "utf8", function (err, data) {
             if (err) {
                 reject(err + "Could not read the file: " + path.resolve(_file));
             }
@@ -124,7 +127,7 @@ function readTextFromFile(_file) {
 exports.readTextFromFile = readTextFromFile;
 function writeTextToFile(_file, _text) {
     return new Promise(function (resolve, reject) {
-        fs.writeFile(_file, _text, (err) => {
+        fs.writeFile(_file, _text, function (err) {
             if (err) {
                 reject(err + " Could not write to file: " + path.resolve(_file));
             }
@@ -165,7 +168,7 @@ function createDirectorySync(directory) {
 }
 exports.createDirectorySync = createDirectorySync;
 function mkdirSyncRecursive(directory) {
-    let pathParts = directory.split(path.sep);
+    var pathParts = directory.split(path.sep);
     for (var i = 1; i <= pathParts.length; i++) {
         var segment = pathParts.slice(0, i).join(path.sep);
         if (segment.length > 0) {
@@ -200,7 +203,7 @@ function deleteDirectory(dir) {
 exports.deleteDirectory = deleteDirectory;
 function deleteDirectorySync(dir) {
     fs.accessSync(dir);
-    let files = fs.readdirSync(dir);
+    var files = fs.readdirSync(dir);
     files.map(function (file) {
         return deleteFileSync(path.join(dir, file));
     });
@@ -228,7 +231,7 @@ function deleteFile(filePath) {
 }
 exports.deleteFile = deleteFile;
 function deleteFileSync(filePath) {
-    let stats = fs.lstatSync(filePath);
+    var stats = fs.lstatSync(filePath);
     if (stats.isDirectory()) {
         deleteDirectorySync(filePath);
     }
@@ -239,7 +242,7 @@ function deleteFileSync(filePath) {
 exports.deleteFileSync = deleteFileSync;
 function renameFile(fileOld, fileNew) {
     return new Promise(function (resolve, reject) {
-        fs.rename(fileOld, fileNew, (err) => {
+        fs.rename(fileOld, fileNew, function (err) {
             if (err) {
                 reject(err);
             }
@@ -254,7 +257,7 @@ function renameFileSync(fileOld, fileNew) {
 exports.renameFileSync = renameFileSync;
 function copyFile(filePath, destPath) {
     return new Promise(function (resolve, reject) {
-        fs.copyFile(filePath, destPath, (err) => {
+        fs.copyFile(filePath, destPath, function (err) {
             if (err) {
                 reject(err);
             }
@@ -267,3 +270,14 @@ function copyFileSync(filePath, destPath) {
     fs.copyFileSync(filePath, destPath);
 }
 exports.copyFileSync = copyFileSync;
+function isPlatformAvailable(path, platform) {
+    try {
+        checkIfFileExistsSync(path);
+        return true;
+    }
+    catch (e) {
+        logger_1.default.logMessageSync(platform + " Location doesn't exist - Skip " + platform + " instrumentation and configuration.", logger_1.default.WARNING);
+        return false;
+    }
+}
+exports.isPlatformAvailable = isPlatformAvailable;

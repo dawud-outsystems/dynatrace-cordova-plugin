@@ -37,31 +37,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var config = require("./config");
 var installHelper = require("./installHelper");
-module.exports = function (context) {
+module.exports = (function () {
     return __awaiter(this, void 0, void 0, function () {
-        var plugins, index;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    if (!(context !== undefined && context.opts !== undefined && context.opts.plugins !== undefined)) return [3, 4];
-                    plugins = context.opts.plugins;
-                    if (!plugins.includes("@dynatrace/cordova-plugin")) return [3, 4];
-                    index = plugins.indexOf("@dynatrace/cordova-plugin");
-                    plugins[index] = "dynatrace-cordova-plugin";
-                    return [4, installHelper.modifyPackageJson(false)];
+                case 0: return [4, installHelper.installDependencies()];
                 case 1:
                     _a.sent();
-                    return [4, installHelper.removeGradleModification()];
+                    return [4, installHelper.modifyPackageJsonCap(true)];
                 case 2:
                     _a.sent();
-                    return [4, installHelper.removePListModification()];
+                    return [4, installHelper.addLinkerFlagToCapConfigFile()];
                 case 3:
                     _a.sent();
-                    installHelper.modifyConfigXmlUninstall();
-                    _a.label = 4;
-                case 4: return [2];
+                    return [4, config.checkConfiguration()];
+                case 4:
+                    _a.sent();
+                    return [2];
             }
         });
     });
-};
+}());

@@ -9,171 +9,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const logger_1 = require("./logger");
-const config = require("./config");
-const android = require("./android");
-const fileOperation = require("./fileOperationHelper");
-const pathConstants = require("./pathsConstants");
-const path = require("path");
-const ios_1 = require("./ios");
-const downloadAgent_1 = require("./downloadAgent");
-const instrumentHtml_1 = require("./instrumentHtml");
-const nodePath = require("path");
-const updateSecurity_1 = require("./updateSecurity");
-const CONFIG_GRADLE_FILE = "--gradle";
-const CONFIG_PLIST_FILE = "--plist";
-const CONFIG_FILE = "--config";
-const CONFIG_JSAGENT_FILE = "--jsagent";
-module.exports = function () {
-    return __awaiter(this, void 0, void 0, function* () {
-        logger_1.default.logMessageSync("Starting Configuration of Cordova application ..", logger_1.default.INFO);
-        showVersionOfPlugin();
-        let pathToConfig = pathConstants.getConfigFilePath();
-        let pathToGradle = pathConstants.getAndroidGradleFile(pathConstants.getAndroidPath());
-        let androidAvailable = true;
-        let pathToPList = undefined;
-        let iosAvailable = true;
-        let pathToJsAgent = undefined;
-        let jsagentContent = undefined;
-        var argv = parseCommandLine(process.argv.slice(2));
-        if (argv.config !== undefined) {
-            pathToConfig = argv.config;
-        }
-        if (argv.gradle !== undefined) {
-            pathToGradle = nodePath.resolve(argv.gradle);
-            androidAvailable = isPlatformAvailable(pathToGradle, "Android");
-        }
-        else {
-            androidAvailable = isPlatformAvailable(pathConstants.getAndroidPath(), "Android");
-        }
-        if (argv.plist !== undefined) {
-            pathToPList = nodePath.resolve(argv.plist);
-            iosAvailable = isPlatformAvailable(pathToPList, "iOS");
-        }
-        else {
-            iosAvailable = isPlatformAvailable(pathConstants.getIosPath(), "iOS");
-        }
-        if (argv.jsagent !== undefined) {
-            try {
-                logger_1.default.logMessageSync("Checking if JSAgent file exists ..", logger_1.default.INFO);
-                pathToJsAgent = fileOperation.checkIfFileExistsSync(argv.jsagent);
-                logger_1.default.logMessageSync("JSAgent found at: " + pathToJsAgent, logger_1.default.INFO);
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
             }
-            catch (ex) {
-                logger_1.default.logMessageSync("JSAgent not found: " + ex, logger_1.default.WARNING);
-            }
-        }
-        pathToConfig = nodePath.resolve(pathToConfig);
-        pathToGradle = nodePath.resolve(pathToGradle);
-        if (iosAvailable || androidAvailable) {
-            instrumentHtml_1.removeOldDtAgent(pathConstants.getDownloadJSAgentPath());
-            try {
-                logger_1.default.logMessageSync("Trying to read configuration file: " + pathToConfig, logger_1.default.INFO);
-                let configJson = config.readConfig(pathToConfig);
-                if (pathToJsAgent !== undefined) {
-                    jsagentContent = yield fileOperation.readTextFromFile(pathToJsAgent);
-                }
-                else {
-                    jsagentContent = yield downloadAgent_1.downloadAgent(configJson);
-                }
-                if (androidAvailable) {
-                    try {
-                        logger_1.default.logMessageSync("Starting Android Configuration with Dynatrace!", logger_1.default.INFO);
-                        android.instrumentAndroidPlatform(pathToGradle, false);
-                        android.writeGradleConfig(configJson.android);
-                        let androidAssetPath = yield pathConstants.getAndroidAssetsPath();
-                        instrumentHtml_1.removeOldDtAgent(path.join(androidAssetPath, "assets", "dtAgent.js"));
-                        if (jsagentContent == undefined) {
-                            logger_1.default.logMessageSync("Not instrumenting HTML files since there is no available JSAgent to inject!", logger_1.default.WARNING);
-                        }
-                        else {
-                            yield instrumentHtml_1.instrumentHtml(androidAssetPath, jsagentContent);
-                            yield updateSecurity_1.updateSecurity(androidAssetPath, configJson);
-                        }
-                    }
-                    catch (e) {
-                        logger_1.default.logMessageSync(e.message, logger_1.default.ERROR);
-                    }
-                    finally {
-                        logger_1.default.logMessageSync("Finished Android Configuration with Dynatrace!", logger_1.default.INFO);
-                    }
-                }
-                if (iosAvailable) {
-                    try {
-                        logger_1.default.logMessageSync("Starting iOS Configuration with Dynatrace!", logger_1.default.INFO);
-                        yield ios_1.default.modifyPListFile(pathToPList, configJson.ios, false);
-                        instrumentHtml_1.removeOldDtAgent(path.join(pathConstants.getIOSAssetsPath(), "assets", "dtAgent.js"));
-                        if (jsagentContent == undefined) {
-                            logger_1.default.logMessageSync("Not instrumenting HTML files since there is no available JSAgent to inject!", logger_1.default.WARNING);
-                        }
-                        else {
-                            yield instrumentHtml_1.instrumentHtml(pathConstants.getIOSAssetsPath(), jsagentContent);
-                            yield updateSecurity_1.updateSecurity(pathConstants.getIOSAssetsPath(), configJson);
-                        }
-                    }
-                    catch (e) {
-                        logger_1.default.logMessageSync(e.message, logger_1.default.ERROR);
-                    }
-                    finally {
-                        logger_1.default.logMessageSync("Finished iOS Configuration with Dynatrace!", logger_1.default.INFO);
-                    }
-                }
-            }
-            catch (e) {
-                logger_1.default.logMessageSync(e, logger_1.default.ERROR);
-                if (e instanceof downloadAgent_1.StopBuildError) {
-                    throw e;
-                }
-            }
-        }
-        else {
-            logger_1.default.logMessageSync("Both Android and iOS Folder are not available - Skip Configuration.", logger_1.default.WARNING);
-        }
-        logger_1.default.logMessageSync("Finished Configuration of Cordova application ..", logger_1.default.INFO);
-        logger_1.default.closeLogFile();
-    });
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
 };
-function showVersionOfPlugin() {
-    try {
-        let packageJsonContent = fileOperation.readTextFromFileSync(pathConstants.getPluginPackage());
-        let packageJsonContentObj = JSON.parse(packageJsonContent);
-        logger_1.default.logMessageSync("Dynatrace Cordova Plugin - Version " + packageJsonContentObj.version, logger_1.default.INFO);
-    }
-    catch (e) {
-        logger_1.default.logMessageSync("Dynatrace Cordova Plugin - Version NOT READABLE", logger_1.default.WARNING);
-    }
-}
-function parseCommandLine(inputArgs) {
-    let parsedArgs = {};
-    inputArgs.forEach(function (entry) {
-        let parts = entry.split("=");
-        if (parts.length == 2) {
-            switch (parts[0]) {
-                case CONFIG_GRADLE_FILE:
-                    parsedArgs.gradle = parts[1];
-                    break;
-                case CONFIG_FILE:
-                    parsedArgs.config = parts[1];
-                    break;
-                case CONFIG_PLIST_FILE:
-                    parsedArgs.plist = parts[1];
-                    break;
-                case CONFIG_JSAGENT_FILE:
-                    parsedArgs.jsagent = parts[1];
-                    break;
-            }
-        }
+Object.defineProperty(exports, "__esModule", { value: true });
+var instrumentHelper = require("./instrumentHelper");
+module.exports = (function () {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            instrumentHelper.instrument(process);
+            return [2];
+        });
     });
-    return parsedArgs;
-}
-function isPlatformAvailable(path, platform) {
-    try {
-        fileOperation.checkIfFileExistsSync(path);
-        return true;
-    }
-    catch (e) {
-        logger_1.default.logMessageSync(`${platform} Location doesn't exist - Skip ${platform} instrumentation and configuration.`, logger_1.default.WARNING);
-        return false;
-    }
-}
+}());

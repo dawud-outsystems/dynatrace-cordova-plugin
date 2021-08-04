@@ -2,16 +2,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.writeGradleConfig = exports.instrumentAndroidPlatform = exports.GRADLE_APPLY_BUILDSCRIPT = exports.GRADLE_DYNATRACE_FILE = void 0;
-const logger_1 = require("./logger");
-const fileOperation = require("./fileOperationHelper");
-const pathConstants = require("./pathsConstants");
-const path = require("path");
-const GRADLE_CONFIG_IDENTIFIER = "// AUTO - INSERTED";
-exports.GRADLE_DYNATRACE_FILE = `apply from: \"${path.join(__dirname, "..", "src","android", "dynatrace.gradle").split(path.sep).join(`${path.sep + path.sep}`)}\"`;
-const GRADLE_BUILDSCRIPT_IDENTIFIER = "buildscript";
-exports.GRADLE_APPLY_BUILDSCRIPT = `apply from: \"${path.join(__dirname, "..", "src","android", "plugin.gradle").split(path.sep).join(`${path.sep + path.sep}`)}", to: buildscript`;
+var logger_1 = require("./logger");
+var fileOperation = require("./fileOperationHelper");
+var pathConstants = require("./pathsConstants");
+var path = require("path");
+var GRADLE_CONFIG_IDENTIFIER = "// AUTO - INSERTED";
+exports.GRADLE_DYNATRACE_FILE = "apply from: \"" + pathConstants.getDynatraceGradleFile().split(path.sep).join("" + (path.sep + path.sep)) + "\"";
+var GRADLE_BUILDSCRIPT_IDENTIFIER = "buildscript";
+exports.GRADLE_APPLY_BUILDSCRIPT = "apply from: \"" + pathConstants.getDynatracePluginGradleFile().split(path.sep).join("" + (path.sep + path.sep)) + "\", to: buildscript";
 function instrumentAndroidPlatform(pathToGradle, remove) {
-    let path = fileOperation.checkIfFileExistsSync(pathToGradle);
+    var path = fileOperation.checkIfFileExistsSync(pathToGradle);
     if (!path.endsWith(".gradle")) {
         throw new Error("Can't find .gradle file. gradle path must also include the gradle file!");
     }
@@ -19,11 +19,11 @@ function instrumentAndroidPlatform(pathToGradle, remove) {
 }
 exports.instrumentAndroidPlatform = instrumentAndroidPlatform;
 function changeCordovaBuildGradleFile(pathToGradle, remove) {
-    let gradleFileContent = fileOperation.readTextFromFileSync(pathToGradle);
-    let gradleFileContentLines = gradleFileContent.split("\n");
-    let gradlePluginFileIndex = -1;
-    let gradleDynatraceFileIndex = -1;
-    for (let i = 0; i < gradleFileContentLines.length && (gradleDynatraceFileIndex === -1 || gradlePluginFileIndex === -1); i++) {
+    var gradleFileContent = fileOperation.readTextFromFileSync(pathToGradle);
+    var gradleFileContentLines = gradleFileContent.split("\n");
+    var gradlePluginFileIndex = -1;
+    var gradleDynatraceFileIndex = -1;
+    for (var i = 0; i < gradleFileContentLines.length && (gradleDynatraceFileIndex === -1 || gradlePluginFileIndex === -1); i++) {
         if (gradleFileContentLines[i].indexOf("plugin.gradle") > -1) {
             gradlePluginFileIndex = i;
         }
@@ -31,7 +31,7 @@ function changeCordovaBuildGradleFile(pathToGradle, remove) {
             gradleDynatraceFileIndex = i;
         }
     }
-    let modified = false;
+    var modified = false;
     if (remove) {
         if (gradlePluginFileIndex !== -1) {
             gradleFileContentLines.splice(gradlePluginFileIndex, 1);
@@ -47,8 +47,8 @@ function changeCordovaBuildGradleFile(pathToGradle, remove) {
     }
     else {
         if (gradlePluginFileIndex === -1) {
-            let gradleFileCordovaIndex = -1;
-            for (let i = 0; i < gradleFileContentLines.length; i++) {
+            var gradleFileCordovaIndex = -1;
+            for (var i = 0; i < gradleFileContentLines.length; i++) {
                 if (gradleFileContentLines[i].startsWith(GRADLE_BUILDSCRIPT_IDENTIFIER)) {
                     gradleFileCordovaIndex = i;
                     break;
@@ -72,7 +72,7 @@ function changeCordovaBuildGradleFile(pathToGradle, remove) {
         }
     }
     if (modified) {
-        let fullGradleFile = gradleFileContentLines.join("\n");
+        var fullGradleFile = gradleFileContentLines.join("\n");
         fileOperation.writeTextToFileSync(pathToGradle, fullGradleFile);
     }
 }
@@ -81,31 +81,31 @@ function writeGradleConfig(androidConfig) {
         logger_1.default.logMessageSync("Can't write configuration of Android agent because it is missing!", logger_1.default.WARNING);
         return;
     }
-    let gradleFileContent = fileOperation.readTextFromFileSync(pathConstants.getDynatraceGradleFile());
-    let gradleFileContentLines = removeOldGradleConfig(gradleFileContent);
-    let gradleFileIndex = -1;
-    for (let i = 0; i < gradleFileContentLines.length; i++) {
+    var gradleFileContent = fileOperation.readTextFromFileSync(pathConstants.getDynatraceGradleFile());
+    var gradleFileContentLines = removeOldGradleConfig(gradleFileContent);
+    var gradleFileIndex = -1;
+    for (var i = 0; i < gradleFileContentLines.length; i++) {
         if (gradleFileContentLines[i].indexOf(GRADLE_CONFIG_IDENTIFIER) > -1) {
             gradleFileIndex = i;
             break;
         }
     }
     gradleFileContentLines.splice(gradleFileIndex + 1, 0, androidConfig.config);
-    let fullGradleFile = gradleFileContentLines.join("\n");
+    var fullGradleFile = gradleFileContentLines.join("\n");
     fileOperation.writeTextToFileSync(pathConstants.getDynatraceGradleFile(), fullGradleFile);
     logger_1.default.logMessageSync("Replaced old configuration with current configuration in dynatrace.gradle", logger_1.default.INFO);
 }
 exports.writeGradleConfig = writeGradleConfig;
 function removeOldGradleConfig(gradleFileContent) {
-    let gradleFileContentLines = gradleFileContent.split("\n");
+    var gradleFileContentLines = gradleFileContent.split("\n");
     var gradleConfigIndex = [];
-    for (let i = 0; i < gradleFileContentLines.length && gradleConfigIndex.length < 2; i++) {
+    for (var i = 0; i < gradleFileContentLines.length && gradleConfigIndex.length < 2; i++) {
         if (gradleFileContentLines[i].indexOf(GRADLE_CONFIG_IDENTIFIER) > -1) {
             gradleConfigIndex.push(i);
         }
     }
     if (gradleConfigIndex.length != 2) {
-        throw new Error("Could not find identfier in internal gradle file. Please re-install.");
+        throw new Error("Could not find identifier in internal gradle file. Please re-install.");
     }
     gradleFileContentLines.splice(gradleConfigIndex[0] + 1, gradleConfigIndex[1] - (gradleConfigIndex[0] + 1));
     return gradleFileContentLines;

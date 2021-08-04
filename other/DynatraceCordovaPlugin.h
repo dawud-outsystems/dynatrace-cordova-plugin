@@ -4,4 +4,8 @@
 
 - (void)endVisit:(CDVInvokedUrlCommand*)command;
 
+- (void) getUserPrivacyOptions:(CDVInvokedUrlCommand*)command;
+
+- (void) applyUserPrivacyOptions:(CDVInvokedUrlCommand*)command;
+
 @end
