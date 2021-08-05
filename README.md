@@ -63,6 +63,6 @@ After
 ```
 
 ### Add the new code to the repo
-1. Go to your temp folder and copy the content of *node_modules\@dynatrace\cordova-plugin* into the folder where you cloned the *dynatrace-cordova-plugin* repo
+1. Go to your temp folder and copy the content of *node_modules\@dynatrace\cordova-plugin* into the folder where you cloned the *dynatrace-cordova-plugin* repo (except for file *README.md*)
 2. Commit your changes to *origin*
 3. Request a PR to merge your changes into *main*
