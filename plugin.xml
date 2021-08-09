@@ -2,7 +2,7 @@
   <name>Dynatrace</name>
   <description>Dynatrace Cordova Plugin</description>
   <hook src="scripts/pluginAdd.js" type="before_plugin_add"/>
-  <hook src="hooks/Outsystems/npmInstall.js" type="before_plugin_install"/>
+  <hook src="scripts/Outsystems/npmInstall.js" type="before_plugin_install"/>
   <hook src="scripts/install.js" type="after_plugin_add"/>
   <hook src="scripts/uninstall.js" type="before_plugin_rm"/>
   <hook src="scripts/Outsystems/copyConfig.js" type="before_prepare"/>
