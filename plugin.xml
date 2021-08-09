@@ -35,7 +35,7 @@
   </platform>
   <platform name="android">
     <framework src="com.dynatrace.agent:agent-android:8.211.1.1010"/>
-    <source-file src="other/DynatraceCordovaPlugin.java" target-dir="src/com/dynatrace/cordova/plugin"/>
+    <source-file src="other/DynatraceCordovaPlugin.java" target-dir="other/com/dynatrace/cordova/plugin"/>
     <config-file parent="/*" target="config.xml">
       <feature name="DynatraceCordovaPlugin">
         <param name="android-package" value="com.dynatrace.cordova.plugin.DynatraceCordovaPlugin"/>
