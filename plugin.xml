@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="dynatrace-cordova-plugin" version="1.219.1">
   <name>Dynatrace</name>
   <description>Dynatrace Cordova Plugin</description>
-  <hook src="hooks/pluginAdd.js" type="before_plugin_add"/>
-  <hook src="hooks/Outsystems/npmInstall.js" type="before_plugin_install"/>
-  <hook src="hooks/install.js" type="after_plugin_add"/>
-  <hook src="hooks/uninstall.js" type="before_plugin_rm"/>
-  <hook src="hooks/Outsystems/copyConfig.js" type="before_prepare"/>
-  <hook src="hooks/instrument.js" type="after_prepare"/>
-  <hook src="hooks/close-log.js" type="after_build"/>
-  <hook src="hooks/close-log.js" type="after_run"/>
+  <hook src="scripts/pluginAdd.js" type="before_plugin_add"/>
+  <hook src="scripts/Outsystems/copyConfig.js" type="before_prepare"/>
+  <hook src="scripts/install.js" type="after_plugin_add"/>
+  <hook src="scripts/uninstall.js" type="before_plugin_rm"/>
+  <hook src="scripts/Outsystems/copyConfig.js" type="before_prepare"/>
+  <hook src="scripts/instrument.js" type="after_prepare"/>
+  <hook src="scripts/close-log.js" type="after_build"/>
+  <hook src="scripts/close-log.js" type="after_run"/>
   <js-module src="networking/NativeNetworkInterceptorUtils.js" name="native-network-interceptor-utils" />
   <js-module src="networking/MobileFirstNetworkInterceptor.js" name="mobile-first-network-interceptor" />
-  <js-module src="www/DynatraceCordovaPlugin.js" name="dynatraceMobile">
+  <js-module src="other/DynatraceCordovaPlugin.js" name="dynatraceMobile">
 	  <clobbers target="dynatraceMobile"/>
   </js-module>
   <platform name="ios">
@@ -35,7 +35,7 @@
   </platform>
   <platform name="android">
     <framework src="com.dynatrace.agent:agent-android:8.211.1.1010"/>
-    <source-file src="other/DynatraceCordovaPlugin.java" target-dir="other/com/dynatrace/cordova/plugin"/>
+    <source-file src="other/DynatraceCordovaPlugin.java" target-dir="src/com/dynatrace/cordova/plugin"/>
     <config-file parent="/*" target="config.xml">
       <feature name="DynatraceCordovaPlugin">
         <param name="android-package" value="com.dynatrace.cordova.plugin.DynatraceCordovaPlugin"/>
