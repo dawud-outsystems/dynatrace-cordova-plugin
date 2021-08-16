@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.widget.Toast;
+
 import com.dynatrace.android.agent.Dynatrace;
 import com.dynatrace.android.agent.conf.DataCollectionLevel;
 import com.dynatrace.android.agent.conf.UserPrivacyOptions;
@@ -51,6 +53,13 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
         return true;
         //DAWUD
       } else if (action.equals(ACTION_UEM_IDENTIFY_USER)) {
+        message = args.getJSONObject(0).getString("_userId");
+        
+        Toast toast = Toast.makeText(cordova.getActivity(), message,
+        DURATION_LONG.equals(duration) ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
+        // Display toast
+        toast.show();
+
         Dynatrace.identifyUser(args.getJSONObject(0).getString("_userId"));
         callbackContext.success("UserId: " + args.getJSONObject(0).getString("_userId"));
         return true;
