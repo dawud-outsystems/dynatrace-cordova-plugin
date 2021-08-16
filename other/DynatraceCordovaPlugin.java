@@ -52,7 +52,7 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
         //DAWUD
       } else if (action.equals(ACTION_UEM_IDENTIFY_USER)) {
         Dynatrace.identifyUser(args.getJSONObject(0).getString("_userId"));
-        callbackContext.success();
+        callbackContext.success("UserId: " + args.getJSONObject(0).getString("_userId"));
         return true;
       }
     } catch(Exception e) {
