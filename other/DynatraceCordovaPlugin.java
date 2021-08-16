@@ -63,7 +63,6 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
     return false;
   }
 
-  @Override
   public boolean identifyUser(String userId) {
     try {
       if(userId != null && !userId.trim().isEmpty()) {

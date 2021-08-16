@@ -45,3 +45,7 @@ window.dtrum.endSession =
     function () {
         return window.dynatraceMobile.endVisit(this.success, this.error);
     };
+window.dtrum.identifyUserNative =
+function () {
+    return window.dynatraceMobile.identifyUserNative(this.success, this.error);
+};
