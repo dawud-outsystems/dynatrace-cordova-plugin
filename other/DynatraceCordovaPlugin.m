@@ -55,4 +55,25 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)identifyUser:(CDVInvokedUrlCommand*)command
+{   
+    CDVPluginResult* pluginResult;
+
+
+    if ([command.arguments objectAtIndex:0]) {
+
+        NSString* userId = [[command.arguments objectAtIndex:0] valueForKey:@"userId"];
+        
+        
+        [Dynatrace applyUserPrivacyOptions:privacyConfig completion:^(BOOL successful) {
+            // do nothing with callback
+        }];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@(stringConcat("Following user has been identified: ", userId))];
+    } else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    }
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 @end

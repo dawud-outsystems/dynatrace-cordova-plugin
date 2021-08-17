@@ -30,10 +30,6 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     try {
 
-        Toast toastTemp = Toast.makeText(cordova.getActivity(), action, Toast.LENGTH_LONG);
-        // Display toast
-        toastTemp.show();
-
       if (action.equals(ACTION_UEM_END_SESSION)) {
         Dynatrace.endVisit();
         callbackContext.success();
@@ -56,17 +52,8 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
         callbackContext.success("Privacy settings updated!");
 
         return true;
-        //DAWUD
       } else if (action.equals(ACTION_UEM_IDENTIFY_USER)) {
         String userId = args.getJSONObject(0).getString("userId");
-
-        Toast toast1 = Toast.makeText(cordova.getActivity(), ACTION_UEM_IDENTIFY_USER, Toast.LENGTH_LONG);
-        // Display toast
-        toast1.show();
-
-        Toast toast2 = Toast.makeText(cordova.getActivity(), userId, Toast.LENGTH_LONG);
-        // Display toast
-        toast2.show();
 
         Dynatrace.identifyUser(userId);
         callbackContext.success("UserId: " + userId);
@@ -78,21 +65,6 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
       return false;
     }
     return false;
-  }
-
-  // public boolean identifyUser(String userId) {
-  //   try {
-  //     if(userId != null && !userId.trim().isEmpty()) {
-  //       Dynatrace.identifyUser(userId);
-  //     }
-  //     return false;
-  //   } catch(Exception e) {
-  //     System.err.println("Exception: " + e.getMessage());
-  //     callbackContext.error(e.getMessage());
-  //     return false;
-  //   }
-  //   return false;
-  // }
-  
+  }  
 
 }
