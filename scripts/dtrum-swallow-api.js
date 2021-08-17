@@ -47,5 +47,5 @@ window.dtrum.endSession =
     };
 window.dtrum.identifyUserNative =
 function () {
-    return window.dynatraceMobile.identifyUserNative(this.success, this.error);
+    return window.dynatraceMobile.identifyUserNative(this.userId, this.success, this.error);
 };
