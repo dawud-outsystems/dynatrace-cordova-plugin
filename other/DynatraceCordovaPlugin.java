@@ -58,18 +58,18 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
         return true;
         //DAWUD
       } else if (action.equals(ACTION_UEM_IDENTIFY_USER)) {
-        // String message = args.getJSONObject(0).getString("_userId");
+        String userId = args.getJSONObject(0).getString("userId");
 
         Toast toast1 = Toast.makeText(cordova.getActivity(), ACTION_UEM_IDENTIFY_USER, Toast.LENGTH_LONG);
         // Display toast
         toast1.show();
 
-        Toast toast2 = Toast.makeText(cordova.getActivity(), args.getJSONObject(0).getString("_userId"), Toast.LENGTH_LONG);
+        Toast toast2 = Toast.makeText(cordova.getActivity(), userId, Toast.LENGTH_LONG);
         // Display toast
         toast2.show();
 
-        Dynatrace.identifyUser(args.getJSONObject(0).getString("_userId"));
-        callbackContext.success("UserId: " + args.getJSONObject(0).getString("_userId"));
+        Dynatrace.identifyUser(userId);
+        callbackContext.success("UserId: " + userId);
         return true;
       }
     } catch(Exception e) {
