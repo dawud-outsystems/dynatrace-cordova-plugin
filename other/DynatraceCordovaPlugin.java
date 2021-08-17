@@ -53,8 +53,8 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
         return true;
         //DAWUD
       } else if (action.equals(ACTION_UEM_IDENTIFY_USER)) {
-        message = args.getJSONObject(0).getString("_userId");
-        
+        String message = args.getJSONObject(0).getString("_userId");
+
         Toast toast = Toast.makeText(cordova.getActivity(), message,
         DURATION_LONG.equals(duration) ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
         // Display toast
