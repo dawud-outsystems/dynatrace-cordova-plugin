@@ -29,6 +29,11 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     try {
+
+        Toast toastTemp = Toast.makeText(cordova.getActivity(), "Toasty", Toast.LENGTH_LONG);
+        // Display toast
+        toastTemp.show();
+
       if (action.equals(ACTION_UEM_END_SESSION)) {
         Dynatrace.endVisit();
         callbackContext.success();
@@ -55,9 +60,7 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
       } else if (action.equals(ACTION_UEM_IDENTIFY_USER)) {
         // String message = args.getJSONObject(0).getString("_userId");
 
-        Toast toastTemp = Toast.makeText(cordova.getActivity(), "Toast Test", Toast.LENGTH_LONG);
-        // Display toast
-        toastTemp.show();
+        
 
         Toast toast = Toast.makeText(cordova.getActivity(), args.getJSONObject(0).getString("_userId"), Toast.LENGTH_LONG);
         // Display toast

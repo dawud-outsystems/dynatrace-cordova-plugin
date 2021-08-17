@@ -39,10 +39,13 @@ module.exports = {
             success = success || emptyFunction;
             error = error || emptyFunction;
             var options = { userId: userId };
+            alert('userId: ' + userId);
             exec(success, error, "DynatraceCordovaPlugin", "identifyUser", [options]);
+            alert('success');
         }
         else if (error) {
             error("Parameter userId can't be blank or null.");
+            alert('error');
         }
     }
 };
