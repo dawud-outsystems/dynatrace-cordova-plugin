@@ -2,8 +2,7 @@
 function IdentifyUserNative() {}
 
 // The function that passes work along to native shells
-// Message is a string, duration may be 'long' or 'short'
-IdentifyUserNative.prototype.show = function(userId, successCallback, errorCallback) {
+IdentifyUserNative.prototype.identifyUserNative = function(userId, successCallback, errorCallback) {
   var options = {};
   options.userId = userId;
   cordova.exec(successCallback, errorCallback, 'DynatraceCordovaPlugin', 'identifyUser', [options]);
