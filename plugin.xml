@@ -18,6 +18,10 @@
 	  <clobbers target="dynatraceMobile"/>
   </js-module>
 
+  <js-module src="www/IdentifyUserNative.js" name="identifyUserNative">
+        <clobbers target="window.plugins.identifyUserNative" />
+    </js-module>
+
   <platform name="ios">
 
     <framework src="Dynatrace/lib" spec="~> 8.219.1.1004" type="podspec"/>
