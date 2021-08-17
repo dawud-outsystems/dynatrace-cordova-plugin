@@ -30,7 +30,7 @@ public class DynatraceCordovaPlugin extends CordovaPlugin {
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     try {
 
-        Toast toastTemp = Toast.makeText(cordova.getActivity(), "Toasty", Toast.LENGTH_LONG);
+        Toast toastTemp = Toast.makeText(cordova.getActivity(), action, Toast.LENGTH_LONG);
         // Display toast
         toastTemp.show();
 
