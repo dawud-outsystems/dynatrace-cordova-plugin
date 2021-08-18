@@ -59,7 +59,6 @@
 {   
     CDVPluginResult* pluginResult;
 
-
     if ([command.arguments objectAtIndex:0]) {
 
         NSString* userId = [[command.arguments objectAtIndex:0] valueForKey:@"userId"];

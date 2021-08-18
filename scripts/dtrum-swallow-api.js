@@ -19,7 +19,6 @@ window.dtrum = window.dtrum || {
     enterXhrCallback: function () { return void 0; },
     getAndEvaluateMetaData: function () { return []; },
     identifyUser: function () { return void 0; },
-    identifyUserNative: function () { return void 0; },
     incrementOnLoadEndMarkers: function () { return void 0; },
     leaveAction: function () { return void 0; },
     leaveXhrAction: function () { return void 0; },
@@ -46,7 +45,3 @@ window.dtrum.endSession =
     function () {
         return window.dynatraceMobile.endVisit(this.success, this.error);
     };
-window.dtrum.identifyUserNative =
-function () {
-    return window.dynatraceMobile.identifyUserNative(this.userId, this.success, this.error);
-};
