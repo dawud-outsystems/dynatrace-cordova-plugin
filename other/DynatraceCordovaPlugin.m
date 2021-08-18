@@ -64,10 +64,8 @@
 
         NSString* userId = [[command.arguments objectAtIndex:0] valueForKey:@"userId"];
         
+        DTX_StatusCode result = [Dynatrace identifyUser:userId];
         
-        [Dynatrace identifyUser:userId completion:^(BOOL successful) {
-            // do nothing with callback
-        }];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@("Success")];
     } else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
