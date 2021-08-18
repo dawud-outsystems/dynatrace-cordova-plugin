@@ -65,9 +65,9 @@
         
         DTX_StatusCode result = [Dynatrace identifyUser:userId];
         
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@("Success")];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@(result).stringValue)];
     } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@(result).stringValue)];
     }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
