@@ -8,6 +8,6 @@
 
 - (void) applyUserPrivacyOptions:(CDVInvokedUrlCommand*)command;
 
-- (void)identifyUser:(CDVInvokedUrlCommand*)command;
+// - (void)identifyUser:(CDVInvokedUrlCommand*)command;
 
 @end
