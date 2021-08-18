@@ -68,7 +68,7 @@
         [Dynatrace applyUserPrivacyOptions:privacyConfig completion:^(BOOL successful) {
             // do nothing with callback
         }];
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@(userId)];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@("Success")];
     } else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     }
